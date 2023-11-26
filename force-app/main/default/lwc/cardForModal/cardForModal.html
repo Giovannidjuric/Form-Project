@@ -35,10 +35,21 @@
                                 <label class="slds-form-element__label" for="subject-id">
                                     <abbr class="slds-required" title="required">*</abbr>Subject</label>
                                 <div class="slds-form-element__control">
-                                    <input type="text" id="subject-id" class="slds-input" placeholder="Enter case description here.." required/>
+                                    <input type="text" id="subject-id" class="slds-input" placeholder="Enter case subject here.." required/>
                                 </div>
                             </div>
                         </div>
+                        </div>
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                    <label class="slds-form-element__label" for="case-status">
+                                        <abbr class="slds-required" title="required">* </abbr></label>
+                                    <div class="slds-form-element__control">
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="slds-form__row">
                             <div class="slds-form__item" role="listitem">
@@ -53,7 +64,7 @@
                     </div>
                 </div>
                 <div class="slds-modal__footer">
-                    <button class="slds-button slds-button_neutral" aria-label="Cancel and close">Cancel</button>
+                    <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={openModal}>Cancel</button>
                     <button class="slds-button slds-button_brand">Save</button>
                 </div>
             </div>
