@@ -42,12 +42,27 @@
                         </div>
                         <div class="slds-form__row">
                             <div class="slds-form__item" role="listitem">
-                                <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                <div class="slds-form-element__control slds-form-element_horizontal slds-is-editing">
                                     <label class="slds-form-element__label" for="case-status">
-                                        <abbr class="slds-required" title="required">* </abbr></label>
-                                    <div class="slds-form-element__control">
-                                        
-                                    </div>
+                                        <abbr class="slds-required" title="required">*</abbr>Status</label>
+                                    <lightning-combobox 
+                                    id="case-status" 
+                                    label="status"
+                                    variant="label-hidden"
+                                    options={caseStatusValues}
+                                    ></lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element__control slds-form-element_horizontal slds-is-editing">
+                                    <label class="slds-form-element__label" for="case-reason">
+                                        <abbr class="slds-required" title="required">*</abbr>Reason</label>
+                                    <lightning-combobox 
+                                    id="case-reason" 
+                                    label="reason"
+                                    variant="label-hidden"
+                                    options={caseReasonValues}
+                                    ></lightning-combobox>
                                 </div>
                             </div>
                         </div>
