@@ -7,7 +7,8 @@
         </h3>
         <lightning-button label="create case" class="slds-align_absolute-center" onclick={openModal}></lightning-button>
     </lightning-card>
-    <template if:true={showModal}>
+    <template if:true={showModal}>    
+        
         <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
         class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
@@ -19,71 +20,87 @@
                 <div class="slds-modal__header">
                     <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate"><lightning-icon icon-name="standard:case" class="slds-var-m-right_small"></lightning-icon>Enter Case Details</h1>
                 </div>
-                <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-1">
-                    <div class="slds-form" role="list">
-                        <div class="slds-form__row">
-                          <div class="slds-form__item" role="listitem">
-                            <div class="slds-form-element slds-form-element_horizontal">
-                                <span class="slds-form-element__label">Case Owner</span>
-                                <div class="slds-form-element__control">
-                                    <div class="slds-form-element__static">{fullName}</div>
-                                </div>
+                <div class="slds-modal__content slds-var-p-around_medium slds-is-relative" id="modal-content-id-1">
+                    <template if:true={showSpinner}>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <div class="slds-spinner_container">
+                            <div class="slds-spinner_brand slds-spinner slds-spinner_large slds-spinner_delayed" role="status">
+                                <span class="slds-assistive-text">Loading...</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
                             </div>
-                          </div>
-                          <div class="slds-form__item" role="listitem">
-                            <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
-                                <label class="slds-form-element__label" for="subject-id">
-                                    <abbr class="slds-required" title="required">*</abbr>Subject</label>
-                                <div class="slds-form-element__control">
-                                    <input type="text" id="subject-id" class="slds-input" placeholder="Enter case subject here.." required/>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="slds-form__row">
-                            <div class="slds-form__item" role="listitem">
-                                <div class="slds-form-element__control slds-form-element_horizontal slds-is-editing">
-                                    <label class="slds-form-element__label" for="case-status">
-                                        <abbr class="slds-required" title="required">*</abbr>Status</label>
-                                    <lightning-combobox 
-                                    id="case-status" 
-                                    label="status"
-                                    variant="label-hidden"
-                                    options={caseStatusValues}
-                                    ></lightning-combobox>
-                                </div>
-                            </div>
-                            <div class="slds-form__item" role="listitem">
-                                <div class="slds-form-element__control slds-form-element_horizontal slds-is-editing">
-                                    <label class="slds-form-element__label" for="case-reason">
-                                        <abbr class="slds-required" title="required">*</abbr>Reason</label>
-                                    <lightning-combobox 
-                                    id="case-reason" 
-                                    label="reason"
-                                    variant="label-hidden"
-                                    options={caseReasonValues}
-                                    ></lightning-combobox>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slds-form__row">
-                            <div class="slds-form__item" role="listitem">
-                                <div class="slds-form-element slds-form-element_horizontal slds-is-editing slds-form-element_1-col">
-                                  <label class="slds-form-element__label" for="case-description">Description</label>
-                                  <div class="slds-form-element__control">
-                                    <textarea id="case-description" placeholder="Enter case description here.." class="slds-textarea"></textarea>
-                                  </div>
-                                </div>
-                              </div>
                         </div>
                     </div>
+                    </template>
+                    <template if:false={showSpinner}>
+                        <div class="slds-form" role="list">
+                            <div class="slds-form__row">
+                              <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_horizontal">
+                                    <span class="slds-form-element__label">Case Owner</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">{fullName}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                    <label class="slds-form-element__label" for="subject-id">
+                                        <abbr class="slds-required" title="required">*</abbr>Subject</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" id="subject-id" class="slds-input" placeholder="Enter case subject here.." onchange={handleSubjectChange}/>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element__control slds-form-element_horizontal slds-is-editing">
+                                        <label class="slds-form-element__label" for="case-status">
+                                            <abbr class="slds-required" title="required">*</abbr>Status</label>
+                                        <lightning-combobox 
+                                        id="case-status" 
+                                        label="status"
+                                        variant="label-hidden"
+                                        options={caseStatusValues}
+                                        ></lightning-combobox>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element__control slds-form-element_horizontal slds-is-editing">
+                                        <label class="slds-form-element__label" for="case-reason">
+                                            <abbr class="slds-required" title="required">*</abbr>Reason</label>
+                                        <lightning-combobox 
+                                        id="case-reason" 
+                                        label="reason"
+                                        variant="label-hidden"
+                                        options={caseReasonValues}
+                                        ></lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing slds-form-element_1-col">
+                                      <label class="slds-form-element__label" for="case-description">Description</label>
+                                      <div class="slds-form-element__control">
+                                        <textarea id="case-description" placeholder="Enter case description here.." class="slds-textarea"></textarea>
+                                      </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    </template>
                 </div>
                 <div class="slds-modal__footer">
                     <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={openModal}>Cancel</button>
                     <button class="slds-button slds-button_brand">Save</button>
+                    <button class="slds-button slds-button_destructive slds-float_left --slds-c-button-destructive-spacing-inline-end" 
+                    onclick={handleReset}>Reset Form</button>
                 </div>
             </div>
         </section>
         <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
     </template>
+
 </template>

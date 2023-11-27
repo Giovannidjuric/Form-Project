@@ -15,6 +15,12 @@ export default class CardForModal extends LightningElement {
     caseStatusValues;
     caseReasonValues;
     recordTypes;
+    showSpinner = false;
+
+    handleSubjectChange(event){
+        console.log('handling on change for subject');
+        console.log(event.target.value);
+    }
 
     @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
     objectInfo({error, data}) {
@@ -86,6 +92,36 @@ export default class CardForModal extends LightningElement {
         
         this.showModal = !this.showModal; 
         console.log(`value of showModal after onclick: ${this.showModal}`);
+    }
+
+    asyncReset(){
+        return new Promise((resolve, reject) => {
+            const inputElements = this.template.querySelectorAll('input, textarea, lightning-combobox');
+            if(inputElements){
+            setTimeout(() => {
+                inputElements.forEach(input => {
+                    input.value = '';
+                    resolve(true);
+                })
+            }, 1000)
+        } else {
+                reject(false);
+            }
+        })
+    }
+    
+    handleReset(){
+        this.showSpinner = true;
+        this.asyncReset()
+        .then((value) => {
+            this.showSpinner = false;
+            console.log(value);
+        })
+        .catch((error) => {
+            this.showSpinner = false; 
+            console.log(error);
+        })
+        
     }
 
     
