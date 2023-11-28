@@ -6,6 +6,8 @@ import CASE_STATUS from "@salesforce/schema/Case.Status";
 import CASE_REASON from "@salesforce/schema/Case.Reason";
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import CASE_OBJECT from '@salesforce/schema/Case';
+import insertCases from '@salesforce/apex/CasesClass.insertCases';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class CardForModal extends LightningElement {
     @track showModal = false; 
@@ -16,6 +18,7 @@ export default class CardForModal extends LightningElement {
     caseReasonValues;
     recordTypes;
     showSpinner = false;
+    caseToCreate = [];
 
     handleSubjectChange(event){
         console.log('handling on change for subject');
@@ -121,6 +124,53 @@ export default class CardForModal extends LightningElement {
             this.showSpinner = false; 
             console.log(error);
         })
+        
+    }
+
+    handleSave(){
+        this.showSpinner = true; 
+        const inputElements = this.template.querySelectorAll('input, textarea, lightning-combobox');
+        console.log('logging inputElements length: ' + inputElements.length);
+        console.log('this is dataset id ' + inputElements[0].dataset.id);
+        console.log('logging value: ' + inputElements[0].value);
+        let obj = {};
+        
+
+        for(let i = 0;i < inputElements.length;i++){
+            console.log('starting loop');
+            obj[inputElements[i].dataset.id] = inputElements[i].value;
+            if(i == 3){
+            console.log('ending loop');
+            }
+        }
+
+        this.caseToCreate.push(obj);
+        console.log('caseToCreate after the loop: ' + JSON.stringify(this.caseToCreate));
+
+        insertCases({casesToInsert: this.caseToCreate})
+        .then((result) => {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Successfully created',
+                    message: `Your Case Id ${result[0].Id}`,
+                    variant: 'success'
+                })
+            )
+        })
+        .catch((error) => {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error!',
+                    messae: error.body,message,
+                    variant: 'error'
+                })
+            )
+        })
+        .finally(() => {
+            this.showSpinner = false;
+            this.showModal = false; 
+        })
+
         
     }
 

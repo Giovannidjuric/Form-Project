@@ -45,10 +45,10 @@
                               </div>
                               <div class="slds-form__item" role="listitem">
                                 <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
-                                    <label class="slds-form-element__label" for="subject-id">
+                                    <label class="slds-form-element__label" for="Subject">
                                         <abbr class="slds-required" title="required">*</abbr>Subject</label>
                                     <div class="slds-form-element__control">
-                                        <input type="text" id="subject-id" class="slds-input" placeholder="Enter case subject here.." onchange={handleSubjectChange}/>
+                                        <input data-id="Subject" type="text" id="Subject" class="slds-input" placeholder="Enter case subject here.." onchange={handleSubjectChange}/>
                                     </div>
                                 </div>
                             </div>
@@ -56,10 +56,11 @@
                             <div class="slds-form__row">
                                 <div class="slds-form__item" role="listitem">
                                     <div class="slds-form-element__control slds-form-element_horizontal slds-is-editing">
-                                        <label class="slds-form-element__label" for="case-status">
+                                        <label class="slds-form-element__label" for="Status">
                                             <abbr class="slds-required" title="required">*</abbr>Status</label>
                                         <lightning-combobox 
-                                        id="case-status" 
+                                        data-id="Status"
+                                        id="Status" 
                                         label="status"
                                         variant="label-hidden"
                                         options={caseStatusValues}
@@ -68,10 +69,11 @@
                                 </div>
                                 <div class="slds-form__item" role="listitem">
                                     <div class="slds-form-element__control slds-form-element_horizontal slds-is-editing">
-                                        <label class="slds-form-element__label" for="case-reason">
+                                        <label class="slds-form-element__label" for="Reason">
                                             <abbr class="slds-required" title="required">*</abbr>Reason</label>
                                         <lightning-combobox 
-                                        id="case-reason" 
+                                        data-id="Reason"
+                                        id="Reason" 
                                         label="reason"
                                         variant="label-hidden"
                                         options={caseReasonValues}
@@ -82,9 +84,9 @@
                             <div class="slds-form__row">
                                 <div class="slds-form__item" role="listitem">
                                     <div class="slds-form-element slds-form-element_horizontal slds-is-editing slds-form-element_1-col">
-                                      <label class="slds-form-element__label" for="case-description">Description</label>
+                                      <label class="slds-form-element__label" for="Description">Description</label>
                                       <div class="slds-form-element__control">
-                                        <textarea id="case-description" placeholder="Enter case description here.." class="slds-textarea"></textarea>
+                                        <textarea data-id="Description" id="Description" placeholder="Enter case description here.." class="slds-textarea"></textarea>
                                       </div>
                                     </div>
                             </div>
@@ -94,7 +96,7 @@
                 </div>
                 <div class="slds-modal__footer">
                     <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={openModal}>Cancel</button>
-                    <button class="slds-button slds-button_brand">Save</button>
+                    <button class="slds-button slds-button_brand" onclick={handleSave}>Save</button>
                     <button class="slds-button slds-button_destructive slds-float_left --slds-c-button-destructive-spacing-inline-end" 
                     onclick={handleReset}>Reset Form</button>
                 </div>
